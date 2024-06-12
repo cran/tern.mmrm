@@ -1,3 +1,10 @@
+# tern.mmrm 0.3.1
+
+### Miscellaneous
+
+* Replace usage of `scda` and `scda.2022` in vignettes with `random.cdisc.data`.
+* Change package maintainer to Joe Zhu.
+
 # tern.mmrm 0.3.0
 
 Adapt to release 0.3 of the `mmrm` package.
