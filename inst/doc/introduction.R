@@ -36,16 +36,16 @@ mmrm_results <- fit_mmrm(
 ## -----------------------------------------------------------------------------
 mmrm_results$lsmeans$contrasts
 
-## ----eval=FALSE---------------------------------------------------------------
-#  library(mmrm)
-#  library(emmeans)
-#  
-#  fit <- lmer(
-#    formula = FEV1 ~ RACE + SEX + FEV1_BL + ARMCD * AVISIT + us(AVISIT | USUBJID),
-#    data = mmrm_test_data
-#  )
-#  emmeans::emmeans(fit, pairwise ~ ARMCD | AVISIT, weights = "proportional")
+## ----eval=TRUE----------------------------------------------------------------
+library(mmrm)
+library(emmeans)
 
-## ----eval=F-------------------------------------------------------------------
-#  mmrm_results$diagnostics
+fit <- mmrm(
+  formula = FEV1 ~ RACE + SEX + FEV1_BL + ARMCD * AVISIT + us(AVISIT | USUBJID),
+  data = mmrm_test_data
+)
+emmeans::emmeans(fit, pairwise ~ ARMCD | AVISIT, weights = "proportional")
+
+## ----eval=TRUE----------------------------------------------------------------
+mmrm_results$diagnostics
 

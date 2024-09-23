@@ -1684,6 +1684,7 @@ as follows.</p>
 </tr>
 </tbody>
 </table>
+<p>introduction.R</p>
 <p>The average predicted responses for arms A and B at Visit 1 are <span class="math inline">\((100 \times 20 + 50 \times 30) / 50 = 70\)</span>
 and <span class="math inline">\((90 \times 35 + 40 \times 15) / 50 =
 75\)</span>, respectively. The overall mean is higher in arm B than in
@@ -1787,6 +1788,7 @@ adjusting for baseline covariates.</p>
 <span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co">#&gt; 4 PT1     VIS4   TRT   Black or African American Female    25.3  20.5</span></span>
 <span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co">#&gt; 5 PT2     VIS1   PBO   Asian                     Male      45.0  NA  </span></span>
 <span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">#&gt; 6 PT2     VIS2   PBO   Asian                     Male      45.0  31.5</span></span></code></pre></div>
+<p>introduction.R</p>
 </div>
 <div id="model-fitting-via-tern.mmrm" class="section level3">
 <h3>Model fitting via <code>tern.mmrm</code></h3>
@@ -1805,13 +1807,13 @@ and proportional weights when calculating LS means.</p>
 <span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>  <span class="at">cor_struct =</span> <span class="st">&quot;unstructured&quot;</span>,</span>
 <span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  <span class="at">weights_emmeans =</span> <span class="st">&quot;proportional&quot;</span></span>
 <span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>)</span></code></pre></div>
-<p>The resulting object consists among other things the estimated random
-and fixed effects (<code>fit</code>), the estimated LS means for a
-particular treatment at a particular visit (<code>lsmeans</code>), and
-the difference in LS means at a particular visit
-(<code>lsmeans$contrasts</code>). Based on the output, there is evidence
-that supports treatment leading to an increase in <code>FEV1</code> over
-placebo at all study visits.</p>
+<p>introduction.R The resulting object consists among other things the
+estimated random and fixed effects (<code>fit</code>), the estimated LS
+means for a particular treatment at a particular visit
+(<code>lsmeans</code>), and the difference in LS means at a particular
+visit (<code>lsmeans$contrasts</code>). Based on the output, there is
+evidence that supports treatment leading to an increase in
+<code>FEV1</code> over placebo at all study visits.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>mmrm_results<span class="sc">$</span>lsmeans<span class="sc">$</span>contrasts</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt;   ARMCD AVISIT estimate        se       df lower_cl upper_cl   t_stat</span></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; 1   TRT   VIS1 3.983290 1.0454036 142.3210 1.916765 6.049815 3.810289</span></span>
@@ -1823,21 +1825,72 @@ placebo at all study visits.</p>
 <span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; 2 3.460313e-06    -0.10424997</span></span>
 <span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; 3 1.606280e-05    -0.06893864</span></span>
 <span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; 4 8.969722e-03    -0.09154581</span></span></code></pre></div>
-<p>Other correlation structures and weighting schemes can be
-considered.</p>
+<p>introduction.R Other correlation structures and weighting schemes can
+be considered.</p>
 </div>
 <div id="model-fitting-manually-in-r" class="section level3">
 <h3>Model fitting manually in R</h3>
 <p>One can reproduce these results manually in R. For example, to fit
 the unstructured model:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">library</span>(mmrm)</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmer</span>(</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="at">formula =</span> FEV1 <span class="sc">~</span> RACE <span class="sc">+</span> SEX <span class="sc">+</span> FEV1_BL <span class="sc">+</span> ARMCD <span class="sc">*</span> AVISIT <span class="sc">+</span> <span class="fu">us</span>(AVISIT <span class="sc">|</span> USUBJID),</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="at">data =</span> mmrm_test_data</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>)</span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">emmeans</span>(fit, pairwise <span class="sc">~</span> ARMCD <span class="sc">|</span> AVISIT, <span class="at">weights =</span> <span class="st">&quot;proportional&quot;</span>)</span></code></pre></div>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;mmrm&#39;</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:tern.mmrm&#39;:</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt;     fit_mmrm</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; Welcome to emmeans.</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; Caution: You lose important information if you filter this package&#39;s results.</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; See &#39;? untidy&#39;</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">mmrm</span>(</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>  <span class="at">formula =</span> FEV1 <span class="sc">~</span> RACE <span class="sc">+</span> SEX <span class="sc">+</span> FEV1_BL <span class="sc">+</span> ARMCD <span class="sc">*</span> AVISIT <span class="sc">+</span> <span class="fu">us</span>(AVISIT <span class="sc">|</span> USUBJID),</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>  <span class="at">data =</span> mmrm_test_data</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>)</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">emmeans</span>(fit, pairwise <span class="sc">~</span> ARMCD <span class="sc">|</span> AVISIT, <span class="at">weights =</span> <span class="st">&quot;proportional&quot;</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; $emmeans</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; AVISIT = VIS1:</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt;  ARMCD emmean    SE  df lower.CL upper.CL</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt;  PBO     32.9 0.732 141     31.5     34.4</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt;  TRT     36.9 0.743 141     35.4     38.4</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt; AVISIT = VIS2:</span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co">#&gt;  ARMCD emmean    SE  df lower.CL upper.CL</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co">#&gt;  PBO     37.7 0.576 142     36.6     38.8</span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="co">#&gt;  TRT     41.6 0.570 140     40.5     42.8</span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="co">#&gt; AVISIT = VIS3:</span></span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="co">#&gt;  ARMCD emmean    SE  df lower.CL upper.CL</span></span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a><span class="co">#&gt;  PBO     43.3 0.441 127     42.4     44.2</span></span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a><span class="co">#&gt;  TRT     46.3 0.494 130     45.3     47.2</span></span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a><span class="co">#&gt; AVISIT = VIS4:</span></span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a><span class="co">#&gt;  ARMCD emmean    SE  df lower.CL upper.CL</span></span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a><span class="co">#&gt;  PBO     48.1 1.173 133     45.8     50.4</span></span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a><span class="co">#&gt;  TRT     52.5 1.174 133     50.2     54.8</span></span>
+<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a><span class="co">#&gt; Results are averaged over the levels of: RACE, SEX </span></span>
+<span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a><span class="co">#&gt; Confidence level used: 0.95 </span></span>
+<span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-41"><a href="#cb4-41" tabindex="-1"></a><span class="co">#&gt; $contrasts</span></span>
+<span id="cb4-42"><a href="#cb4-42" tabindex="-1"></a><span class="co">#&gt; AVISIT = VIS1:</span></span>
+<span id="cb4-43"><a href="#cb4-43" tabindex="-1"></a><span class="co">#&gt;  contrast  estimate    SE  df t.ratio p.value</span></span>
+<span id="cb4-44"><a href="#cb4-44" tabindex="-1"></a><span class="co">#&gt;  PBO - TRT    -3.98 1.045 142  -3.810  0.0002</span></span>
+<span id="cb4-45"><a href="#cb4-45" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-46"><a href="#cb4-46" tabindex="-1"></a><span class="co">#&gt; AVISIT = VIS2:</span></span>
+<span id="cb4-47"><a href="#cb4-47" tabindex="-1"></a><span class="co">#&gt;  contrast  estimate    SE  df t.ratio p.value</span></span>
+<span id="cb4-48"><a href="#cb4-48" tabindex="-1"></a><span class="co">#&gt;  PBO - TRT    -3.93 0.814 142  -4.832  &lt;.0001</span></span>
+<span id="cb4-49"><a href="#cb4-49" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-50"><a href="#cb4-50" tabindex="-1"></a><span class="co">#&gt; AVISIT = VIS3:</span></span>
+<span id="cb4-51"><a href="#cb4-51" tabindex="-1"></a><span class="co">#&gt;  contrast  estimate    SE  df t.ratio p.value</span></span>
+<span id="cb4-52"><a href="#cb4-52" tabindex="-1"></a><span class="co">#&gt;  PBO - TRT    -2.98 0.666 130  -4.482  &lt;.0001</span></span>
+<span id="cb4-53"><a href="#cb4-53" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-54"><a href="#cb4-54" tabindex="-1"></a><span class="co">#&gt; AVISIT = VIS4:</span></span>
+<span id="cb4-55"><a href="#cb4-55" tabindex="-1"></a><span class="co">#&gt;  contrast  estimate    SE  df t.ratio p.value</span></span>
+<span id="cb4-56"><a href="#cb4-56" tabindex="-1"></a><span class="co">#&gt;  PBO - TRT    -4.40 1.660 133  -2.652  0.0090</span></span>
+<span id="cb4-57"><a href="#cb4-57" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-58"><a href="#cb4-58" tabindex="-1"></a><span class="co">#&gt; Results are averaged over the levels of: RACE, SEX</span></span></code></pre></div>
+<p>introduction.R</p>
 <p>Compared to manual implementation, <code>tern.mmrm</code> users can
 avoid specifying the <code>formula</code> manually. Note also that
 <code>tern.mmrm</code> has a default optimizer which is in fact the same
@@ -1875,7 +1928,19 @@ run;
 the desire is to select a parsimonious model that adequately fits the
 data. We provide four of the same information criteria as found in
 <code>SAS</code> <code>PROC MIXED</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>mmrm_results<span class="sc">$</span>diagnostics</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>mmrm_results<span class="sc">$</span>diagnostics</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; $`REML criterion`</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; [1] 3361.379</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; $AIC</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; [1] 3381.379</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; $AICc</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; [1] 3381.807</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt; $BIC</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; [1] 3414.211</span></span></code></pre></div>
+<p>introduction.R</p>
 <p>Each criterion is specifically calculated as follows:</p>
 <ol style="list-style-type: decimal">
 <li><code>REML</code> criterion: <span class="math inline">\(-2
