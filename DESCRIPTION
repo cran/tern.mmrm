@@ -1,10 +1,11 @@
 Package: tern.mmrm
 Title: Tables and Graphs for Mixed Models for Repeated Measures (MMRM)
-Version: 0.3.2
-Date: 2024-09-23
+Version: 0.3.3
+Date: 2025-07-03
 Authors@R: c(
     person("Daniel", "Sabanés Bové", , "daniel@rconis.com", role = "aut"),
-    person("Joe", "Zhu", , "joe.zhu@roche.com", role = c("aut", "cre")),
+    person("Joe", "Zhu", , "joe.zhu@roche.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-7566-2787")),
     person("Godwin", "Yung", , "yungg@gene.com", role = "aut"),
     person("Francois", "Collin", role = "aut"),
     person("Julia", "Dedic", , "julia.dedic@roche.com", role = "aut"),
@@ -26,13 +27,13 @@ License: Apache License 2.0
 URL: https://github.com/insightsengineering/tern.mmrm,
         https://insightsengineering.github.io/tern.mmrm/
 BugReports: https://github.com/insightsengineering/tern.mmrm/issues
-Depends: R (>= 3.6), tern (>= 0.9.5)
+Depends: R (>= 3.6), tern (>= 0.9.9)
 Imports: checkmate (>= 2.1.0), cowplot, dplyr (>= 1.1.0), emmeans (>=
-        1.10.4), formatters (>= 0.5.9), generics, ggplot2, lifecycle
+        1.10.4), formatters (>= 0.5.11), generics, ggplot2, lifecycle
         (>= 0.2.0), magrittr, mmrm (>= 0.3.5), parallelly (>= 1.25.0),
-        rlang (>= 1.0.1), rtables (>= 0.6.10), stats, tidyr (>= 0.8.3)
+        rlang (>= 1.0.1), rtables (>= 0.6.13), stats, tidyr (>= 0.8.3)
 Suggests: broom (>= 0.7.10), grid, knitr (>= 1.42), maditr (>= 0.8.1),
-        Matrix, rmarkdown (>= 2.23), testthat (>= 3.1), vdiffr (>=
+        Matrix, rmarkdown (>= 2.23), testthat (>= 3.1), TMB, vdiffr (>=
         1.0.7), withr (>= 2.0.0)
 VignetteBuilder: knitr, rmarkdown
 Config/Needs/verdepcheck: insightsengineering/tern, mllg/checkmate,
@@ -52,9 +53,9 @@ Collate: 'utils.R' 'assert_data.R' 'covariance_plot.R' 'fit_mmrm.R'
         'formula.R' 'g_mmrm.R' 'labels.R' 'lsmeans.R' 'subgroups.R'
         'tabulate_mmrm.R' 'tern.mmrm-package.R'
 NeedsCompilation: no
-Packaged: 2024-09-23 03:19:21 UTC; rstudio
+Packaged: 2025-07-03 23:39:04 UTC; delaruae
 Author: Daniel Sabanés Bové [aut],
-  Joe Zhu [aut, cre],
+  Joe Zhu [aut, cre] (ORCID: <https://orcid.org/0000-0001-7566-2787>),
   Godwin Yung [aut],
   Francois Collin [aut],
   Julia Dedic [aut],
@@ -62,4 +63,4 @@ Author: Daniel Sabanés Bové [aut],
   F. Hoffmann-La Roche AG [cph, fnd]
 Maintainer: Joe Zhu <joe.zhu@roche.com>
 Repository: CRAN
-Date/Publication: 2024-09-23 04:20:02 UTC
+Date/Publication: 2025-07-04 05:10:02 UTC
